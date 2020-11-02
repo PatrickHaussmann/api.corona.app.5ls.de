@@ -1,4 +1,4 @@
-module.exports = (req, res) => {
+export default async (req, res) => {
 
     res.setHeader('Cache-Control', 's-maxage=3600');
 
