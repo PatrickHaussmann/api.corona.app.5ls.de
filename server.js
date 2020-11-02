@@ -6,10 +6,8 @@ export default async (req, res) => {
 
     const response = await fetch("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=GEN,county,cases,deaths,cases_per_100k,cases_per_population,last_update,cases7_per_100k&outSR=4326&f=json");
     console.log(response)
-    const json = await response.json();
+    const apidata = await response.json();
     console.log(json)
-    const apidata = json.data;
-    console.log(apidata)
 
     for (const feature of apidata.features) {
         let district = {}
