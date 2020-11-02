@@ -1,6 +1,3 @@
-import axios from 'axios';
-
-
 module.exports = (req, res) => {
 
     res.setHeader('Cache-Control', 's-maxage=3600');
