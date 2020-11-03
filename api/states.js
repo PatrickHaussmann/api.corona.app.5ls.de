@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     res.json({ lastUpdate: apidata.features[0].attributes.Aktualisierung, states: states })
 }
 
-function getAbbreviation(name: string) {
+function getAbbreviation(name) {
     switch (name) {
         case "Baden-Württemberg":
             return "BW";
