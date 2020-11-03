@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     const apidata = response.data;
 
     for (const feature of apidata.features) {
-        let state = new State();
+        let state = {}
         state.name = feature.attributes.LAN_ew_GEN;
         state.count = feature.attributes.Fallzahl;
         state.deaths = feature.attributes.Death;
