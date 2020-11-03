@@ -1,6 +1,6 @@
-import axios from 'axios';
+const axios = require("axios");
 
-export default async (req, res) => {
+module.exports = async(req, res) => {
 
     res.setHeader('Cache-Control', 's-maxage=3600');
 
