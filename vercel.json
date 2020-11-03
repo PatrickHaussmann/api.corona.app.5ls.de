@@ -2,7 +2,8 @@
   "version": 2,
   "rewrites": [
     { "source": "/districts", "destination": "/api/districts" },
-    { "source": "/states", "destination": "/api/states" }
+    { "source": "/states", "destination": "/api/states" },
+    { "source": "/", "destination": "/404" }
   ],
   "headers": [
     {
