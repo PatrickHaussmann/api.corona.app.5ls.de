@@ -16,11 +16,11 @@ module.exports = async (req, res) => {
     
     let tds = htmlDoc.getElementById("main").getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[16].getElementsByTagName("td")
     
-    result.count = tds[1].textContent
-    result.deaths = tds[5].textContent
-    result.weekIncidence = tds[4].textContent
-    result.diff = tds[2].textContent
-    result.last7d = tds[3].textContent
+    result.count = Number(tds[1].textContent)
+    result.deaths = Number(tds[5].textContent)
+    result.weekIncidence = Number(tds[4].textContent)
+    result.diff = Number(tds[2].textContent)
+    result.last7d = Number(tds[3].textContent)
 
     res.json(result)
 }
