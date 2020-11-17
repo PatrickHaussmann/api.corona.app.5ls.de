@@ -11,18 +11,16 @@ module.exports = async (req, res) => {
     const dom = new JSDOM(response.data);
     var htmlDoc = dom.window.document
     
-    let text = htmlDoc.getElementById("main").getElementsByTagName("p")[0].textContent
-    console.log(text)
-    console.log(htmlDoc)
+
     result.lastUpdate = htmlDoc.getElementById("main").getElementsByTagName("p")[0].textContent.split(" (")[0].substring(7)
     
     let tds = htmlDoc.getElementById("main").getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[16].getElementsByTagName("td")
     
-    result.count = tds[1].innertText
-    result.deaths = tds[5].innertText
-    result.weekIncidence = tds[4].innertText
-    result.diff = tds[2].innertText
-    result.last7d = tds[3].innertText
+    result.count = tds[1].textContent
+    result.deaths = tds[5].textContent
+    result.weekIncidence = tds[4].textContent
+    result.diff = tds[2].textContent
+    result.last7d = tds[3].textContent
 
     res.json(result)
 }
