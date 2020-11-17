@@ -14,8 +14,8 @@
           "value" : "s-maxage=3600"
         },
         {
-          "key" : "X-test",
-          "value" : "hi"
+          "key" : "Access-Control-Allow-Origin",
+          "value" : "https://corona.app.5ls.de"
         }
       ]
     }
