@@ -11,7 +11,10 @@ module.exports = async (req, res) => {
     const dom = new JSDOM(response.data);
     var htmlDoc = dom.window.document
     
-    result.lastUpdate = htmlDoc.getElementById("main").getElementsByTagName("p")[0].innerText.split(" (")[0].substring(7)
+    let text = htmlDoc.getElementById("main").getElementsByTagName("p")[0].textContent
+    console.log(text)
+    console.log(htmlDoc)
+    result.lastUpdate = htmlDoc.getElementById("main").getElementsByTagName("p")[0].textContent.split(" (")[0].substring(7)
     
     let tds = htmlDoc.getElementById("main").getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[16].getElementsByTagName("td")
     
