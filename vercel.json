@@ -12,7 +12,7 @@
       "headers" : [
         {
           "key" : "Cache-Control",
-          "value" : "max-age=3600, public, s-maxage=3600, stale-while-revalidate"
+          "value" : "s-maxage=1, stale-while-revalidate"
         },
         {
           "key" : "Access-Control-Allow-Origin",
