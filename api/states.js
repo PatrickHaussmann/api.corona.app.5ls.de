@@ -3,7 +3,13 @@ const axios = require("axios");
 module.exports = async (req, res) => {
 
     let states = [];
-    
+    let total = {
+        count: 0,
+        deaths: 0,
+        weekIncidence: 0,
+        casesPer100k: 0
+    }
+
     const response = await axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronaf%C3%A4lle_in_den_Bundesl%C3%A4ndern/FeatureServer/0/query?where=1%3D1&outFields=LAN_ew_GEN,LAN_ew_EWZ,Fallzahl,Aktualisierung,faelle_100000_EW,Death,cases7_bl_per_100k&returnGeometry=false&outSR=4326&f=json");
     const apidata = response.data;
 
@@ -17,9 +23,14 @@ module.exports = async (req, res) => {
         state.code = getAbbreviation(state.name);
 
         states.push(state);
+
+        total.count += state.count
+        total.deaths += state.deaths
+        total.weekIncidence += state.weekIncidence
+        total.casesPer100k += state.casesPer100k
     }
 
-    res.json({ lastUpdate: apidata.features[0].attributes.Aktualisierung, states: states })
+    res.json({ lastUpdate: apidata.features[0].attributes.Aktualisierung, total: total ,states: states })
 }
 
 function getAbbreviation(name) {
