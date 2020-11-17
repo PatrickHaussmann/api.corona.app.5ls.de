@@ -16,11 +16,17 @@ module.exports = async (req, res) => {
     
     let tds = htmlDoc.getElementById("main").getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[16].getElementsByTagName("td")
         
-    result.count = Number(tds[1].textContent.trim().replace('.','').replace(',','.'))
-    result.deaths = Number(tds[5].textContent.trim().replace('.','').replace(',','.'))
-    result.weekIncidence = Number(tds[4].textContent.trim().replace('.','').replace(',','.'))
-    result.diff = Number(tds[2].textContent.trim().replace('.','').replace(',','.'))
-    result.last7d = Number(tds[3].textContent.trim().replace('.','').replace(',','.'))
+    
+    function parse(text) {
+        return Number(text.trim().replace('.','').replace(',','.'))
+    }
+    
+    
+    result.count = parse(tds[1].textContent)
+    result.deaths = parse(tds[5].textContent)
+    result.weekIncidence = parse(tds[4].textContent)
+    result.diff = parse(tds[2].textContent)
+    result.last7d = parse(tds[3].textContent)
 
     res.json(result)
 }
