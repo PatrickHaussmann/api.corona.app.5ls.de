@@ -4,6 +4,7 @@
     { "source": "/districts", "destination": "/api/districts" },
     { "source": "/states", "destination": "/api/states" },
     { "source": "/country", "destination": "/api/country" },
+    { "source": "/timeline", "destination": "/api/timeline" },
     { "source": "/", "destination": "/404" }
   ],
   "headers": [
