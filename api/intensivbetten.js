@@ -17,6 +17,7 @@ module.exports = async (req, res) => {
         district.betten_gesamt = feature.attributes.betten_gesamt;
         district.faelle_covid_aktuell = feature.attributes.faelle_covid_aktuell;
         district.faelle_covid_aktuell_beatmet = feature.attributes.faelle_covid_aktuell_beatmet;
+        district.anteil_freier_betten = district.betten_frei/district.betten_gesamt;
         district.anteil_covid_beatmet = feature.attributes.Anteil_covid_beatmet;
         district.anteil_covid_betten = feature.attributes.Anteil_COVID_betten;
 
