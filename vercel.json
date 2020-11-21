@@ -5,6 +5,7 @@
     { "source": "/states", "destination": "/api/states" },
     { "source": "/country", "destination": "/api/country" },
     { "source": "/timeline", "destination": "/api/timeline" },
+    { "source": "/intensivbetten", "destination": "/api/intensivbetten" },
     { "source": "/", "destination": "/404" }
   ],
   "headers": [
