@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
         
     
     function parse(text) {
-        return Number(text.trim().replace('.','').replace(',','.'))
+        return Number(text.trim().replace('*','').replace('.','').replace(',','.'))
     }
     
     
