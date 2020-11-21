@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
     let confirmed = 0
     for (const element of apidata) {
         let simplified = {}
-        simplified.Date = element.Date;
+        simplified.date = element.Date;
         simplified.confirmed = element.Confirmed;
         simplified.deaths = element.Deaths;
         simplified.recovered = element.Recovered;
