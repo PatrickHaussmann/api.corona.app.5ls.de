@@ -18,7 +18,6 @@ module.exports = async (req, res) => {
         district.casesPerPopulation = feature.attributes.cases_per_population;
         district.population = feature.attributes.EWZ;
         district.death_rate = feature.attributes.death_rate;
-        district.cases_per_population = feature.attributes.cases_per_population;
 
         districts.push(district);
     }
