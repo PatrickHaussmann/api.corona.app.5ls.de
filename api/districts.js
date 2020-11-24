@@ -86,6 +86,40 @@ module.exports = async (req, res) => {
     }
 
 
+    for (const key in series) {
+        if (series.hasOwnProperty(key)) {
+            const element = series[key];
+            if (!element.color) {
+                element.color = [{
+                    hex: "#a0a0a0",
+                    range_end: 0
+                }]
+
+                let palette = ["#69d2e7", "#a7dbd8", "#e0e4cc", "#f38630", "#fa6900"]
+                //let palette = ["#000", "#fff"]
+                let colormap = interpolate(palette);
+                let n = 5
+                let min = 0
+                let max = element.max
+
+                let previous_start = 0
+
+                for (let i = 0; i < n; i++) {
+                    let color = colormap(map(i, 0, n - 1, 0, 1))
+
+                    let range_end = Math.floor(lerp(min, max, map(i + 1, 0, n, 0, 1)))
+                    if (i == n - 1) range_end = undefined
+                    let range_start = previous_start
+                    previous_start = range_end
+
+                    let hex = toHex(color)
+                    element.color.push({ hex, range_start, range_end })
+                }
+            }
+        }
+    }
+
+
     let districts = [];
     for (const key in data) {
         if (data.hasOwnProperty(key)) {
