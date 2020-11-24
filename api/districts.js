@@ -23,8 +23,14 @@ module.exports = async (req, res) => {
     let data = {};
     let series = {};
 
-    const cases_response = await axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=AGS,GEN,EWZ,cases,deaths,cases_per_100k,cases_per_population,last_update,cases7_per_100k,death_rate&returnGeometry=false&outSR=4326&f=json");
+    const cases_promise = axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=AGS,GEN,EWZ,cases,deaths,cases_per_100k,cases_per_population,last_update,cases7_per_100k,death_rate&returnGeometry=false&outSR=4326&f=json");
+    const beds_promise = axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/DIVI_Intensivregister_Landkreise/FeatureServer/0/query?where=1%3D1&outFields=AGS,betten_frei,betten_belegt,betten_gesamt,Anteil_betten_frei,faelle_covid_aktuell,faelle_covid_aktuell_beatmet,Anteil_covid_beatmet,Anteil_COVID_betten,daten_stand&returnGeometry=false&outSR=4326&f=json");
+
+    const [cases_response, beds_response] = await Promise.all([cases_promise, beds_promise]);
+
     const cases_apidata = cases_response.data;
+    const beds_apidata = beds_response.data;
+
 
     function update_series(keys, dict) {
         keys.forEach(key => {
@@ -59,8 +65,7 @@ module.exports = async (req, res) => {
         update_series(["cases", "deaths", "population", "week_incidence", "cases_per_100k", "cases_per_population", "death_rate"], district)
     }
 
-    const beds_response = await axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/DIVI_Intensivregister_Landkreise/FeatureServer/0/query?where=1%3D1&outFields=AGS,betten_frei,betten_belegt,betten_gesamt,Anteil_betten_frei,faelle_covid_aktuell,faelle_covid_aktuell_beatmet,Anteil_covid_beatmet,Anteil_COVID_betten,daten_stand&returnGeometry=false&outSR=4326&f=json");
-    const beds_apidata = beds_response.data;
+
 
     for (const feature of beds_apidata.features) {
         let ags = feature.attributes.AGS
