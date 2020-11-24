@@ -3,6 +3,7 @@
     "@turf/simplify": "^5.1.5",
     "axios": "^0.21.0",
     "color-interpolate": "^1.0.5",
+    "csv-parse": "^4.14.1",
     "hex-and-rgba": "^1.4.2",
     "jsdom": "^16.4.0"
   }
