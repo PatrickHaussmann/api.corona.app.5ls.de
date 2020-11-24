@@ -32,7 +32,6 @@ module.exports = async (req, res) => {
         if (!data[ags]) data[ags] = {}
         let district = data[ags]
 
-        district.ags = feature.attributes.AGS;
         district.beds_available = feature.attributes.betten_frei;
         district.beds_occupied = feature.attributes.betten_belegt;
         district.beds_total = feature.attributes.betten_gesamt;
