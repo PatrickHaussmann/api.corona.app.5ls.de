@@ -5,6 +5,7 @@
     { "source": "/states", "destination": "/api/states" },
     { "source": "/country", "destination": "/api/country" },
     { "source": "/timeline", "destination": "/api/timeline" },
+    { "source": "/districts.geojson", "destination": "/api/districts.geojson" },
     { "source": "/", "destination": "/404" }
   ],
   "headers": [
