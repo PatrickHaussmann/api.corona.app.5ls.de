@@ -29,12 +29,12 @@ module.exports = async (req, res) => {
     function update_series(keys, dict) {
         keys.forEach(key => {
             if (key in series) {
-                series[key].max = Math.max(series[key].max, dict[key])
                 series[key].min = Math.min(series[key].min, dict[key])
+                series[key].max = Math.max(series[key].max, dict[key])
             } else {
                 series[key] = {
-                    max: dict[key],
-                    min: dict[key]
+                    min: dict[key],
+                    max: dict[key]
                 }
             }
         })
@@ -72,11 +72,8 @@ module.exports = async (req, res) => {
         district.beds_total = feature.attributes.betten_gesamt;
         district.beds_covid = feature.attributes.faelle_covid_aktuell;
         district.beds_covid_ventilated = feature.attributes.faelle_covid_aktuell_beatmet;
-        if (district.beds_available && district.beds_total) {
-            district.proportion_beds_available = district.beds_available / district.beds_total * 100;
-        } else {
-            district.proportion_beds_available = null
-        }
+        district.proportion_beds_available = null
+        if (district.beds_available && district.beds_total) district.proportion_beds_available = district.beds_available / district.beds_total * 100;
 
         district.proportion_beds_covid = feature.attributes.Anteil_COVID_betten;
         district.proportion_beds_covid_ventilated = feature.attributes.Anteil_covid_beatmet;
@@ -85,8 +82,7 @@ module.exports = async (req, res) => {
         if (district.proportion_beds_covid) district.proportion_beds_covid = Math.round(district.proportion_beds_covid)
         if (district.proportion_beds_covid_ventilated) district.proportion_beds_covid_ventilated = Math.round(district.proportion_beds_covid_ventilated)
 
-        update_series(["beds_available", "beds_occupied", "beds_total", "beds_covid",
-            "beds_covid_ventilated", "proportion_beds_available", "proportion_beds_covid", "proportion_beds_covid_ventilated"], district)
+        update_series(["beds_available", "beds_occupied", "beds_total", "beds_covid", "beds_covid_ventilated", "proportion_beds_available", "proportion_beds_covid", "proportion_beds_covid_ventilated"], district)
     }
 
 
