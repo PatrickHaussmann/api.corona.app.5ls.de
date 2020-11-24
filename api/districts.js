@@ -3,9 +3,24 @@ const axios = require("axios");
 module.exports = async (req, res) => {
 
     let data = {};
+    let series = {};
 
     const cases_response = await axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=AGS,GEN,EWZ,cases,deaths,cases_per_100k,cases_per_population,last_update,cases7_per_100k,death_rate&returnGeometry=false&outSR=4326&f=json");
     const cases_apidata = cases_response.data;
+
+    function update_series(keys, dict) {
+        keys.forEach(key => {
+            if (key in series) {
+                series[key].max = Math.max(series[key].max, dict[key])
+                series[key].min = Math.min(series[key].min, dict[key])
+            } else {
+                series[key] = {
+                    max: dict[key],
+                    min: dict[key]
+                }
+            }
+        })
+    }
 
 
     for (const feature of cases_apidata.features) {
@@ -22,6 +37,8 @@ module.exports = async (req, res) => {
         district.cases_per_100k = feature.attributes.cases_per_100k;
         district.cases_per_population = feature.attributes.cases_per_population;
         district.death_rate = feature.attributes.death_rate;
+
+        update_series(["cases", "deaths", "population", "week_incidence", "cases_per_100k", "cases_per_population", "death_rate"], district)
     }
 
     const beds_response = await axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/DIVI_Intensivregister_Landkreise/FeatureServer/0/query?where=1%3D1&outFields=AGS,betten_frei,betten_belegt,betten_gesamt,Anteil_betten_frei,faelle_covid_aktuell,faelle_covid_aktuell_beatmet,Anteil_covid_beatmet,Anteil_COVID_betten,daten_stand&returnGeometry=false&outSR=4326&f=json");
@@ -47,8 +64,11 @@ module.exports = async (req, res) => {
         district.proportion_beds_covid_ventilated = feature.attributes.Anteil_covid_beatmet;
 
         if (district.proportion_beds_available) district.proportion_beds_available = Math.round(district.proportion_beds_available)
-        if (district.proportion_beds_covid_ventilated) district.proportion_beds_covid_ventilated = Math.round(district.proportion_beds_covid_ventilated)
         if (district.proportion_beds_covid) district.proportion_beds_covid = Math.round(district.proportion_beds_covid)
+        if (district.proportion_beds_covid_ventilated) district.proportion_beds_covid_ventilated = Math.round(district.proportion_beds_covid_ventilated)
+
+        update_series(["beds_available", "beds_occupied", "beds_total", "beds_covid",
+            "beds_covid_ventilated", "proportion_beds_available", "proportion_beds_covid", "proportion_beds_covid_ventilated"], district)
     }
 
 
@@ -60,8 +80,6 @@ module.exports = async (req, res) => {
         }
     }
 
-    res.json({
-        districts: districts
-    })
+    res.json({ series, districts })
 
 }
