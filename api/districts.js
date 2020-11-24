@@ -1,4 +1,22 @@
 const axios = require("axios");
+const interpolate = require('color-interpolate');
+const rgbaToHex = require('hex-and-rgba').rgbaToHex;
+const parse = require('color-parse')
+const lerp = require('lerp')
+
+function map(n, start1, stop1, start2, stop2) {
+    return ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
+};
+
+function toHex(color) {
+    let parsed_color = parse(color)
+    let rgb = parsed_color.values
+
+    if (parsed_color.alpha != 1) rgb.push(parsed_color.alpha)
+    let hex = rgbaToHex(...rgb)
+    return hex
+}
+
 
 module.exports = async (req, res) => {
 
