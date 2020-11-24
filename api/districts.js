@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
 
     let districts = [];
 
-    const response = await axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=GEN,EWZ,county,cases,deaths,cases_per_100k,cases_per_population,last_update,cases7_per_100k&returnGeometry=false&outSR=4326&f=json");
+    const response = await axios.get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=GEN,EWZ,county,cases,deaths,cases_per_100k,cases_per_population,last_update,cases7_per_100k,death_rate&returnGeometry=false&outSR=4326&f=json");
     const apidata = response.data;
 
     for (const feature of apidata.features) {
@@ -17,6 +17,8 @@ module.exports = async (req, res) => {
         district.casesPer100k = feature.attributes.cases_per_100k;
         district.casesPerPopulation = feature.attributes.cases_per_population;
         district.population = feature.attributes.EWZ;
+        district.death_rate = feature.attributes.death_rate;
+        district.cases_per_population = feature.attributes.cases_per_population;
 
         districts.push(district);
     }
