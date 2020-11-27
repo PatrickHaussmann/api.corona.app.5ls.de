@@ -48,10 +48,11 @@ module.exports = async (req, res) => {
 
 
     for (const feature of cases_apidata.features) {
-        let ags = feature.attributes.AGS
-        data[ags] = {}
-        let district = data[ags]
+        let rs = feature.attributes.RS
+        data[rs] = {}
+        let district = data[rs]
 
+        district.rs = feature.attributes.RS;
         district.ags = feature.attributes.AGS;
         district.name = feature.attributes.GEN;
         district.cases = feature.attributes.cases;
@@ -68,9 +69,9 @@ module.exports = async (req, res) => {
 
 
     for (const feature of beds_apidata.features) {
-        let ags = feature.attributes.AGS
-        if (!data[ags]) data[ags] = {}
-        let district = data[ags]
+        let rs = feature.attributes.RS
+        if (!data[rs]) data[rs] = {}
+        let district = data[rs]
 
         district.beds_available = feature.attributes.betten_frei;
         district.beds_occupied = feature.attributes.betten_belegt;
