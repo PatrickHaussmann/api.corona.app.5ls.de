@@ -5,8 +5,9 @@ module.exports = async (req, res) => {
 
     const response = await axios.get("https://opendata.arcgis.com/datasets/917fc37a709542548cc3be077a786c17_0.geojson");
     const apidata = response.data;
-
-    var options = { tolerance: 0.1, highQuality: true };
+    
+    // ~0.001 < tolerance < ~0.01
+    var options = { tolerance: 0.003, highQuality: true };
     var simplified = simplify(apidata, options)
     simplified.crs = undefined
 
