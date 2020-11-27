@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     var htmlDoc = dom.window.document
     
 
-    result.lastUpdate = htmlDoc.getElementById("main").getElementsByTagName("p")[0].textContent.split(" (")[0].substring(7)
+    result.last_update = htmlDoc.getElementById("main").getElementsByTagName("p")[0].textContent.split(" (")[0].substring(7)
     
     let tds = htmlDoc.getElementById("main").getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[16].getElementsByTagName("td")
         
@@ -22,11 +22,11 @@ module.exports = async (req, res) => {
     }
     
     
-    result.count = parse(tds[1].textContent)
+    result.cases = parse(tds[1].textContent)
     result.deaths = parse(tds[5].textContent)
-    result.weekIncidence = parse(tds[4].textContent)
-    result.diff = parse(tds[2].textContent)
-    result.last7d = parse(tds[3].textContent)
+    result.week_incidence = parse(tds[4].textContent)
+    result.difference_to_previous_date = parse(tds[2].textContent)
+    result.cases_last_7d = parse(tds[3].textContent)
 
     res.json(result)
 }
