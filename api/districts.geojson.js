@@ -12,10 +12,11 @@ module.exports = async (req, res) => {
 
     for (const feature of simplified.features) {
         feature.properties.ags = feature.properties.AGS
+        feature.properties.rs = feature.properties.RS
         feature.properties.gen = feature.properties.GEN
         for (const key in feature.properties) {
             if (feature.properties.hasOwnProperty(key)) {
-                if (!["gen", "ags"].includes(key)) feature.properties[key] = undefined
+                if (!["gen", "ags", "rs"].includes(key)) feature.properties[key] = undefined
             }
         }
     }
