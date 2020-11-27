@@ -79,14 +79,14 @@ module.exports = async (req, res) => {
         district.beds_covid = feature.attributes.faelle_covid_aktuell;
         district.beds_covid_ventilated = feature.attributes.faelle_covid_aktuell_beatmet;
         district.proportion_beds_available = null
-        if (district.beds_available && district.beds_total) district.proportion_beds_available = district.beds_available / district.beds_total * 100;
+        if (district.beds_available != null && district.beds_total != null) district.proportion_beds_available = district.beds_available / district.beds_total * 100;
 
         district.proportion_beds_covid = feature.attributes.Anteil_COVID_betten;
         district.proportion_beds_covid_ventilated = feature.attributes.Anteil_covid_beatmet;
 
-        if (district.proportion_beds_available) district.proportion_beds_available = Math.round(district.proportion_beds_available)
-        if (district.proportion_beds_covid) district.proportion_beds_covid = Math.round(district.proportion_beds_covid)
-        if (district.proportion_beds_covid_ventilated) district.proportion_beds_covid_ventilated = Math.round(district.proportion_beds_covid_ventilated)
+        if (district.proportion_beds_available != null) district.proportion_beds_available = Math.round(district.proportion_beds_available)
+        if (district.proportion_beds_covid != null) district.proportion_beds_covid = Math.round(district.proportion_beds_covid)
+        if (district.proportion_beds_covid_ventilated != null) district.proportion_beds_covid_ventilated = Math.round(district.proportion_beds_covid_ventilated)
 
         update_series(["beds_available", "beds_occupied", "beds_total", "beds_covid", "beds_covid_ventilated", "proportion_beds_available", "proportion_beds_covid", "proportion_beds_covid_ventilated"], district)
     }
