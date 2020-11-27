@@ -3,7 +3,7 @@ const simplify = require('@turf/simplify')
 
 module.exports = async (req, res) => {
 
-    const response = await axios.get("https://opendata.arcgis.com/datasets/248e105774144a27aca2dfbfe080fc9d_0.geojson");
+    const response = await axios.get("https://opendata.arcgis.com/datasets/917fc37a709542548cc3be077a786c17_0.geojson");
     const apidata = response.data;
 
     var options = { tolerance: 0.1, highQuality: true };
