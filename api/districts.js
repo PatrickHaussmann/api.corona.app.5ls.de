@@ -59,11 +59,11 @@ module.exports = async (req, res) => {
         district.deaths = feature.attributes.deaths;
         district.population = feature.attributes.EWZ;
         district.week_incidence = feature.attributes.cases7_per_100k;
-        district.cases_per_100k = feature.attributes.cases_per_100k;
-        district.cases_per_population = feature.attributes.cases_per_population;
+        //district.cases_per_100k = feature.attributes.cases_per_100k;
+        district.cases_rate = feature.attributes.cases_per_population;
         district.death_rate = feature.attributes.death_rate;
 
-        update_series(["cases", "deaths", "population", "week_incidence", "cases_per_100k", "cases_per_population", "death_rate"], district)
+        update_series(["cases", "deaths", "population", "week_incidence", "cases_rate", "death_rate"], district)
     }
 
 
