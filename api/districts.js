@@ -91,6 +91,29 @@ module.exports = async (req, res) => {
         update_series(["beds_available", "beds_occupied", "beds_total", "beds_covid", "beds_covid_ventilated", "proportion_beds_available", "proportion_beds_covid", "proportion_beds_covid_ventilated"], district)
     }
 
+    series["week_incidence"].color = [{
+        hex: "#a0a0a0",
+        range_end: 0
+    },{
+        hex: "#d2cd84",
+        range_start: 0,
+        range_end: 35
+    },{
+        hex: "#c6941a",
+        range_start: 35,
+        range_end: 50
+    },{
+        hex: "#bb5220",
+        range_start: 50,
+        range_end: 100
+    },{
+        hex: "#af2632",
+        range_start: 100,
+        range_end: 200
+    },{
+        hex: "#8c0619",
+        range_start: 200
+    }]
 
     for (const key in series) {
         if (series.hasOwnProperty(key)) {
