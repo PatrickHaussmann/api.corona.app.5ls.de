@@ -157,6 +157,6 @@ module.exports = async (req, res) => {
         }
     }
 
-    res.json({ series, districts })
+    res.json({ series, districts, last_update: cases_apidata.features[0].attributes.last_update })
 
 }
