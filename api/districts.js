@@ -23,9 +23,9 @@ module.exports = async (req, res) => {
             const district = result.data[ags];
 
             if (district.population != null && district.cases != null)
-                district.casesRate = district.population / district.cases;
+                district.casesRate = district.cases / district.population;
             if (district.cases != null && district.deaths != null)
-                district.deathRate = district.cases / district.deaths;
+                district.deathRate = district.deaths / district.cases;
         }
     }
 
