@@ -18,6 +18,17 @@ module.exports = async (req, res) => {
         data: cases,
     };
 
+    for (const ags in result.data) {
+        if (Object.hasOwnProperty.call(result.data, ags)) {
+            const district = result.data[ags];
+
+            if (district.population != null && district.cases != null)
+                district.casesRate = district.population / district.cases;
+            if (district.cases != null && district.deaths != null)
+                district.deathsRate = district.cases / district.deaths;
+        }
+    }
+
     for (const feature of beds.features) {
         let ags = feature.attributes.AGS;
         if (!result.data[ags]) result.data[ags] = {};
