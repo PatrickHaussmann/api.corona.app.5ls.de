@@ -1,13 +1,8 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/country", "destination": "/api/country" },
-    { "source": "/districts.geojson", "destination": "/api/districts.geojson" },
-    { "source": "/districts", "destination": "/api/districts" },
-    { "source": "/states.geojson", "destination": "/api/states.geojson" },
-    { "source": "/states", "destination": "/api/states" },
-    { "source": "/timeline", "destination": "/api/timeline" },
-    { "source": "/", "destination": "/404" }
+    { "source": "/", "destination": "/404" },
+    { "source": "/:file*", "destination": "/api/:file" }
   ],
   "headers": [
     {
