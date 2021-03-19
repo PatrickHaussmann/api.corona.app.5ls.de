@@ -32,11 +32,12 @@ module.exports = async (req, res) => {
         district.proportionBedsAvailable = null;
         if (district.bedsAvailable != null && district.bedsTotal != null)
             district.proportionBedsAvailable =
-                (district.bedsAvailable / district.bedsTotal) * 100;
+                district.bedsAvailable / district.bedsTotal;
 
-        district.proportionBedsCovid = feature.attributes.Anteil_COVID_betten;
+        district.proportionBedsCovid =
+            feature.attributes.Anteil_COVID_betten / 100;
         district.proportionBedsCovidVentilated =
-            feature.attributes.Anteil_covid_beatmet;
+            feature.attributes.Anteil_covid_beatmet / 100;
     }
 
     result.lastUpdate = cases_response.data.meta.lastUpdate;
