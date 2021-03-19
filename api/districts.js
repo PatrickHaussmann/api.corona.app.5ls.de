@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
             if (district.population != null && district.cases != null)
                 district.casesRate = district.population / district.cases;
             if (district.cases != null && district.deaths != null)
-                district.deathsRate = district.cases / district.deaths;
+                district.deathRate = district.cases / district.deaths;
         }
     }
 
