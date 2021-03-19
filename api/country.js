@@ -1,8 +1,26 @@
 const axios = require("axios");
 
 module.exports = async (req, res) => {
-    const response = await axios.get("https://api.corona-zahlen.org/germany");
-    let result = response.data;
+    const cases_promise = axios.get("https://api.corona-zahlen.org/germany");
+    const vaccinations_promise = axios.get(
+        "https://api.corona-zahlen.org/vaccinations"
+    );
+
+    const [cases_response, vaccinations_response] = await Promise.all([
+        cases_promise,
+        vaccinations_promise,
+    ]);
+
+    const cases = cases_response.data;
+    const vaccinations = vaccinations_response.data.data;
+    let result = cases;
+    result.r.lastUpdate = result.r.date;
+    result.r.date = undefined;
+
+    result.vaccinations = vaccinations;
+    result.vaccinations.states = undefined;
+    result.vaccinations.indication = undefined;
+    result.vaccinations.lastUpdate = vaccinations_response.data.meta.lastUpdate;
 
     result.lastUpdate = result.meta.lastUpdate;
     result.lastCheckedForUpdate = new Date();
