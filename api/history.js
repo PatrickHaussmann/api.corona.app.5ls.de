@@ -4,9 +4,9 @@ module.exports = async (req, res) => {
     const cases_promise = axios.get(
         "https://api.corona-zahlen.org/germany/history/cases"
     );
-    const incidence_promise = axios.get(
+    /* const incidence_promise = axios.get(
         "https://api.corona-zahlen.org/germany/history/incidence"
-    );
+    ); */
     const deaths_promise = axios.get(
         "https://api.corona-zahlen.org/germany/history/deaths"
     );
@@ -14,20 +14,20 @@ module.exports = async (req, res) => {
         "https://api.corona-zahlen.org/germany/history/recovered"
     );
 
+    /* incidence_response, */
     const [
         cases_response,
-        incidence_response,
         deaths_response,
         recovered_response,
     ] = await Promise.all([
         cases_promise,
-        incidence_promise,
         deaths_promise,
         recovered_promise,
     ]);
+    /* incidence_promise, */
 
     const cases = cases_response.data.data;
-    const incidence = incidence_response.data.data;
+    /* const incidence = incidence_response.data.data; */
     const deaths = deaths_response.data.data;
     const recovered = recovered_response.data.data;
 
@@ -37,10 +37,10 @@ module.exports = async (req, res) => {
         if (!dates[element.date]) dates[element.date] = {};
         dates[element.date].cases = element.cases;
     });
-    incidence.forEach((element) => {
+    /* incidence.forEach((element) => {
         if (!dates[element.date]) dates[element.date] = {};
         dates[element.date].weekIncidence = element.weekIncidence;
-    });
+    }); */
     deaths.forEach((element) => {
         if (!dates[element.date]) dates[element.date] = {};
         dates[element.date].deaths = element.deaths;
