@@ -14,8 +14,8 @@ module.exports = async (req, res) => {
     const cases = cases_response.data;
     const vaccinations = vaccinations_response.data.data;
     let result = cases;
-    result.r.lastUpdate = result.r.date;
-    result.r.date = undefined;
+    result.rValue = result.r.value;
+    result.r.value = undefined;
 
     result.vaccinations = vaccinations;
     result.vaccinations.states = undefined;
