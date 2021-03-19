@@ -91,6 +91,9 @@ module.exports = async (req, res) => {
         update_series(["beds_available", "beds_occupied", "beds_total", "beds_covid", "beds_covid_ventilated", "proportion_beds_available", "proportion_beds_covid", "proportion_beds_covid_ventilated"], district)
     }
 
+    
+    series["week_incidence"].name = "Inzidenz"
+    
     series["week_incidence"].color = [{
         hex: "#a0a0a0",
         range_end: 0
