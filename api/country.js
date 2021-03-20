@@ -1,32 +1,29 @@
 const axios = require("axios");
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 
 module.exports = async (req, res) => {
+    const cases_promise = axios.get("https://api.corona-zahlen.org/germany");
+    const vaccinations_promise = axios.get(
+        "https://api.corona-zahlen.org/vaccinations"
+    );
 
-    let result = {}
+    const [cases_response, vaccinations_response] = await Promise.all([
+        cases_promise,
+        vaccinations_promise,
+    ]);
 
-    const response = await axios.get("https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html");
-    
-    const dom = new JSDOM(response.data);
-    var htmlDoc = dom.window.document
-    
+    const cases = cases_response.data;
+    const vaccinations = vaccinations_response.data.data;
+    let result = cases;
+    result.rValue = result.r.value;
+    result.r.value = undefined;
 
-    result.last_update = htmlDoc.getElementById("main").getElementsByTagName("p")[0].textContent.split(" (")[0].substring(7)
-    
-    let tds = htmlDoc.getElementById("main").getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[16].getElementsByTagName("td")
-        
-    
-    function parse(text) {
-        return Number(text.trim().replace('*','').replace('.','').replace(',','.'))
-    }
-    
-    
-    result.cases = parse(tds[1].textContent)
-    result.deaths = parse(tds[5].textContent)
-    result.week_incidence = parse(tds[4].textContent)
-    result.difference_to_previous_date = parse(tds[2].textContent)
-    result.cases_last_7d = parse(tds[3].textContent)
+    result.vaccinations = vaccinations;
+    result.vaccinations.states = undefined;
+    result.vaccinations.indication = undefined;
+    result.vaccinations.lastUpdate = vaccinations_response.data.meta.lastUpdate;
 
-    res.json(result)
-}
+    result.lastUpdate = result.meta.lastUpdate;
+    result.lastCheckedForUpdate = new Date();
+    result.meta = undefined;
+    res.json(result);
+};
