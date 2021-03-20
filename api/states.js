@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
             const element = vaccinations[state];
             if (!states[state]) states[state] = {};
             element.name = undefined;
-            states[state].vaccination = element;
+            states[state].vaccinations = element;
         }
     }
 
