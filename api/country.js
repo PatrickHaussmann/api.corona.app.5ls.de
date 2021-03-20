@@ -15,10 +15,12 @@ module.exports = async (req, res) => {
     const vaccinations = vaccinations_response.data.data;
     let result = cases;
     result.rValue = result.r.value;
-    result.r.value = undefined;
+    result.r = undefined;
 
     result.vaccinations = vaccinations;
     result.vaccinations.states = undefined;
+    result.vaccinations.vaccination = undefined;
+    result.vaccinations.secondVaccination.vaccination = undefined;
     result.vaccinations.indication = undefined;
     result.vaccinations.lastUpdate = vaccinations_response.data.meta.lastUpdate;
 
