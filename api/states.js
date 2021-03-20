@@ -23,20 +23,32 @@ module.exports = async (req, res) => {
         ) {
             const element = vaccinations[state];
             if (!states[state]) states[state] = {};
-            element.name = undefined;
-            element.vaccination = undefined;
-            element.secondVaccination.vaccination = undefined;
-            element.indication = undefined;
-            
-            states[state].vaccinations = element;
+
+            states[state].vaccinated = element.vaccinated;
+            states[state].delta.vaccinated = element.delta;
+            states[state].vaccinatedQuote = element.quote;
+            states[state].secondVaccination =
+                element.secondVaccination.vaccinated;
+            states[state].delta.secondVaccination =
+                element.secondVaccination.delta;
+            states[state].secondVaccinationQuote =
+                element.secondVaccination.quote;
         }
     }
 
     let result = {
-        states,
+        states: {},
     };
+
+    for (const state in states) {
+        if (Object.hasOwnProperty.call(states, state)) {
+            const element = states[state];
+            result.states[element.name] = element;
+        }
+    }
 
     result.lastUpdate = cases_response.data.meta.lastUpdate;
     result.lastCheckedForUpdate = new Date();
+    result.lastUpdateVaccinations = vaccinations_response.data.meta.lastUpdate;
     res.json(result);
 };
