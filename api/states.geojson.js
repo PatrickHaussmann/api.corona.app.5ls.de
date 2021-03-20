@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     const apidata = response.data;
     
     // ~0.001 < tolerance < ~0.01
-    var options = { tolerance: 0.003, highQuality: true };
+    var options = { tolerance: 0.005, highQuality: true };
     var simplified = simplify(apidata, options)
     simplified.crs = undefined
 
