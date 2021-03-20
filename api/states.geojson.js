@@ -12,11 +12,10 @@ module.exports = async (req, res) => {
     simplified.crs = undefined
 
     for (const feature of simplified.features) {
-        feature.properties.ags = feature.properties.AGS
-        feature.properties.gen = feature.properties.GEN
+        feature.properties.name = feature.properties.LAN_ew_GEN
         for (const key in feature.properties) {
             if (feature.properties.hasOwnProperty(key)) {
-                if (!["gen", "ags"].includes(key)) feature.properties[key] = undefined
+                if (!["name"].includes(key)) feature.properties[key] = undefined
             }
         }
     }
