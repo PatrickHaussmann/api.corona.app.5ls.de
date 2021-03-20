@@ -15,40 +15,35 @@ module.exports = async (req, res) => {
     const beds = beds_response.data;
 
     let result = {
-        data: cases,
+        districts: cases,
     };
 
-    for (const ags in result.data) {
-        if (Object.hasOwnProperty.call(result.data, ags)) {
-            const district = result.data[ags];
+    for (const ags in result.districts) {
+        if (Object.hasOwnProperty.call(result.districts, ags)) {
+            const district = result.districts[ags];
 
             if (district.population != null && district.cases != null)
                 district.casesRate = district.cases / district.population;
             if (district.cases != null && district.deaths != null)
                 district.deathRate = district.deaths / district.cases;
+
+            district.casesPer100k = undefined;
         }
     }
 
     for (const feature of beds.features) {
         let ags = feature.attributes.AGS;
-        if (!result.data[ags]) result.data[ags] = {};
-        let district = result.data[ags];
+        if (!result.districts[ags]) result.districts[ags] = {};
+        let district = result.districts[ags];
 
-        district.bedsAvailable = feature.attributes.betten_frei;
-        district.bedsOccupied = feature.attributes.betten_belegt;
         district.bedsTotal = feature.attributes.betten_gesamt;
-        district.bedsCovid = feature.attributes.faelle_covid_aktuell;
-        district.bedsCovidVentilated =
-            feature.attributes.faelle_covid_aktuell_beatmet;
         district.proportionBedsAvailable = null;
-        if (district.bedsAvailable != null && district.bedsTotal != null)
+        if (feature.attributes.betten_frei != null && district.bedsTotal != null)
             district.proportionBedsAvailable =
-                district.bedsAvailable / district.bedsTotal;
+            feature.attributes.betten_frei / district.bedsTotal;
 
         district.proportionBedsCovid =
             feature.attributes.Anteil_COVID_betten / 100;
-        district.proportionBedsCovidVentilated =
-            feature.attributes.Anteil_covid_beatmet / 100;
     }
 
     result.lastUpdate = cases_response.data.meta.lastUpdate;

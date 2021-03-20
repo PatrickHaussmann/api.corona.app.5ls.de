@@ -16,13 +16,14 @@ module.exports = async (req, res) => {
     let result = cases;
     result.rValue = result.r.value;
     result.r = undefined;
-
-    result.vaccinations = vaccinations;
-    result.vaccinations.states = undefined;
-    result.vaccinations.vaccination = undefined;
-    result.vaccinations.secondVaccination.vaccination = undefined;
-    result.vaccinations.indication = undefined;
-    result.vaccinations.lastUpdate = vaccinations_response.data.meta.lastUpdate;
+    
+    result.vaccinated = vaccinations.vaccinated
+    result.delta.vaccinated = vaccinations.delta
+    result.vaccinatedQuote = vaccinations.quote
+    result.secondVaccination = vaccinations.secondVaccination.vaccinated
+    result.delta.secondVaccination = vaccinations.secondVaccination.delta
+    result.secondVaccinationQuote = vaccinations.secondVaccination.quote
+    result.lastUpdateVaccinations = vaccinations_response.data.meta.lastUpdate;
 
     result.lastUpdate = result.meta.lastUpdate;
     result.lastCheckedForUpdate = new Date();
