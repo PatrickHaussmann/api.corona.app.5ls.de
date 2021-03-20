@@ -14,6 +14,19 @@ module.exports = async (req, res) => {
     const cases = cases_response.data.data;
     const vaccinations = vaccinations_response.data.data.states;
 
+    for (const key in cases) {
+        if (Object.hasOwnProperty.call(cases, key)) {
+            const state = cases[key];
+
+            if (state.population != null && state.cases != null)
+                state.casesRate = state.cases / state.population;
+            if (state.cases != null && state.deaths != null)
+                state.deathRate = state.deaths / state.cases;
+
+            state.casesPer100k = undefined;
+        }
+    }
+
     let states = cases;
 
     for (const state in vaccinations) {
