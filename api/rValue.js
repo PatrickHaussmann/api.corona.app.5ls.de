@@ -15,7 +15,6 @@ module.exports = async (req, res) => {
 
     const csv = csv_response.data.split(";;;;;;;;;;;;", 1)[0];
     const apidata = parse(csv, options);
-    console.log(apidata[0]);
 
     result = {
         data: [],
