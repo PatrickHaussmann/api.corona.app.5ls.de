@@ -29,6 +29,10 @@ module.exports = async (req, res) => {
             if (element.new_cases_smoothed_per_million != null)
                 element.weekIncidence =
                     (element.new_cases_smoothed_per_million * 7) / 10;
+            if (element.total_cases_per_million != null)
+                element.casesRate = element.total_cases_per_million / 100000;
+            if (element.total_deaths_per_million != null)
+                element.deathRate = element.total_deaths_per_million / 100000;
 
             result.countries[key] = element;
         }
