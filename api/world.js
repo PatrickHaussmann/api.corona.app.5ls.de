@@ -1,42 +1,70 @@
 const axios = require("axios");
+const parse = require("csv-parse/lib/sync");
 
 module.exports = async (req, res) => {
     const response = await axios.get(
-        "https://covid.ourworldindata.org/data/owid-covid-data.json"
+        "https://covid.ourworldindata.org/data/owid-covid-data.csv"
     );
-    const apidata = response.data;
+
+    let options = {
+        columns: true,
+        skip_empty_lines: true,
+        trim: true,
+    };
+
+    const apidata = parse(response.data, options);
 
     result = {
         countries: {},
     };
 
-    for (const key in apidata) {
-        if (Object.hasOwnProperty.call(apidata, key)) {
-            const element = {};
+    apidata.reverse().forEach((element) => {
+        const key = element["iso_code"];
+        if (result.countries[key]) return;
 
-            element.location = apidata[key].location;
-            element.continent = apidata[key].continent;
-            element.population = apidata[key].population;
-            element.date = apidata[key].date;
+        result.countries[key] = {
+            location: element["location"],
+            continent: element["continent"],
+            population: parseFloat(element["population"]),
+            date: new Date(element["date"]),
+            total_cases: parseFloat(element["total_cases"]),
+            new_cases: parseFloat(element["new_cases"]),
+            new_cases_smoothed: parseFloat(element["new_cases_smoothed"]),
+            total_deaths: parseFloat(element["total_deaths"]),
+            new_deaths: parseFloat(element["new_deaths"]),
+            new_deaths_smoothed: parseFloat(element["new_deaths_smoothed"]),
+            total_cases_per_million: parseFloat(
+                element["total_cases_per_million"]
+            ),
+            new_cases_per_million: parseFloat(element["new_cases_per_million"]),
+            new_cases_smoothed_per_million: parseFloat(
+                element["new_cases_smoothed_per_million"]
+            ),
+            total_deaths_per_million: parseFloat(
+                element["total_deaths_per_million"]
+            ),
+            new_deaths_per_million: parseFloat(
+                element["new_deaths_per_million"]
+            ),
+            new_deaths_smoothed_per_million: parseFloat(
+                element["new_deaths_smoothed_per_million"]
+            ),
+        };
 
-            let data = apidata[key].data[apidata[key].data.length - 1];
-            for (var key2 in data) {
-                if (data.hasOwnProperty(key2)) {
-                    element[key2] = data[key2];
-                }
-            }
-
-            if (element.new_cases_smoothed_per_million != null)
-                element.weekIncidence =
-                    (element.new_cases_smoothed_per_million * 7) / 10;
-            if (element.total_cases_per_million != null)
-                element.casesRate = element.total_cases_per_million / 1000000;
-            if (element.total_cases != null && element.total_deaths != null)
-                element.deathRate = element.total_deaths / element.total_cases;
-
-            result.countries[key] = element;
-        }
-    }
+        if (result.countries[key].new_cases_smoothed_per_million != null)
+            result.countries[key].weekIncidence =
+                (result.countries[key].new_cases_smoothed_per_million * 7) / 10;
+        if (result.countries[key].total_cases_per_million != null)
+            result.countries[key].casesRate =
+                result.countries[key].total_cases_per_million / 1000000;
+        if (
+            result.countries[key].total_cases != null &&
+            result.countries[key].total_deaths != null
+        )
+            result.countries[key].deathRate =
+                result.countries[key].total_deaths /
+                result.countries[key].total_cases;
+    });
 
     res.json(result.countries);
 };
