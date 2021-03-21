@@ -12,16 +12,24 @@ module.exports = async (req, res) => {
 
     for (const key in apidata) {
         if (Object.hasOwnProperty.call(apidata, key)) {
-            const element = apidata[key];
+            const element = {};
 
-            let data = element.data[element.data.length - 1];
+            element.location = apidata[key].location;
+            element.continent = apidata[key].continent;
+            element.population = apidata[key].population;
+            element.date = apidata[key].date;
+
+            let data = apidata[key].data[apidata[key].data.length - 1];
             for (var key2 in data) {
                 if (data.hasOwnProperty(key2)) {
                     element[key2] = data[key2];
                 }
             }
 
-            element.data = undefined;
+            if (element.new_cases_smoothed_per_million != null)
+                element.weekIncidence =
+                    (element.new_cases_smoothed_per_million * 7) / 10;
+
             result.countries[key] = element;
         }
     }
