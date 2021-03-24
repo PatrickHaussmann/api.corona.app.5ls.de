@@ -1,6 +1,8 @@
 const axios = require("axios");
 
 module.exports = async (req, res) => {
+    let time_start = Date.now();
+
     const cases_promise = axios.get("https://api.corona-zahlen.org/states");
     const vaccinations_promise = axios.get(
         "https://api.corona-zahlen.org/vaccinations"
@@ -10,6 +12,8 @@ module.exports = async (req, res) => {
         cases_promise,
         vaccinations_promise,
     ]);
+
+    let time_download = Date.now();
 
     const cases = cases_response.data.data;
     const vaccinations = vaccinations_response.data.data.states;
@@ -59,6 +63,14 @@ module.exports = async (req, res) => {
             result.states[element.name] = element;
         }
     }
+
+    let time_end = Date.now();
+
+    let timing = {
+        download: time_download - time_start,
+        unpack: time_end - time_download,
+    };
+    console.log(timing);
 
     result.lastUpdate = cases_response.data.meta.lastUpdate;
     result.lastCheckedForUpdate = new Date();
