@@ -2,9 +2,13 @@ const axios = require("axios");
 const parse = require("csv-parse/lib/sync");
 
 module.exports = async (req, res) => {
+    let time_start = Date.now();
+
     const response = await axios.get(
         "https://covid.ourworldindata.org/data/owid-covid-data.csv"
     );
+
+    let time_axios = Date.now();
 
     let options = {
         columns: true,
@@ -13,6 +17,10 @@ module.exports = async (req, res) => {
     };
 
     const apidata = parse(response.data, options);
+
+    let time_parse = Date.now();
+
+
 
     result = {
         countries: {},
@@ -65,6 +73,16 @@ module.exports = async (req, res) => {
                 result.countries[key].total_deaths /
                 result.countries[key].total_cases;
     });
+
+    let time_end = Date.now();
+
+    let timing = {
+        download: time_axios - time_start,
+        parse: time_parse - time_axios,
+        unpack: time_end - time_parse,
+    };
+    console.log(timing)
+
 
     res.json(result.countries);
 };
