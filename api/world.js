@@ -1,5 +1,5 @@
 const axios = require("axios");
-const parse = require("csv-parse/lib/sync");
+const neatCsv = require("neat-csv");
 
 module.exports = async (req, res) => {
     let time_start = Date.now();
@@ -10,23 +10,30 @@ module.exports = async (req, res) => {
 
     let time_axios = Date.now();
 
-    let options = {
-        columns: true,
-        skip_empty_lines: true,
-        trim: true,
-    };
+    let last_iso_code = "NOTEMPTY";
+    let filteredData = [];
+    response.data
+        .split("\n")
+        .reverse()
+        .forEach((row) => {
+            if (row.trim() && !row.startsWith(last_iso_code)) {
+                last_iso_code = row.slice(0, 3);
+                filteredData.push(row);
+            }
+        });
 
-    const apidata = parse(response.data, options);
+    filteredData = filteredData.reverse().join("\n");
+    let time_filter = Date.now();
+
+    const parsedData = await neatCsv(filteredData);
 
     let time_parse = Date.now();
-
-
 
     result = {
         countries: {},
     };
 
-    apidata.reverse().forEach((element) => {
+    parsedData.forEach((element) => {
         const key = element["iso_code"];
         if (result.countries[key]) return;
 
@@ -78,11 +85,11 @@ module.exports = async (req, res) => {
 
     let timing = {
         download: time_axios - time_start,
-        parse: time_parse - time_axios,
+        filter: time_filter - time_axios,
+        parse: time_parse - time_filter,
         unpack: time_end - time_parse,
     };
-    console.log(timing)
-
+    console.log(timing);
 
     res.json(result.countries);
 };
