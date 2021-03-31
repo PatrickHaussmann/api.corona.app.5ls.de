@@ -5,27 +5,12 @@ module.exports = async (req, res) => {
     let time_start = Date.now();
 
     const response = await axios.get(
-        "https://covid.ourworldindata.org/data/owid-covid-data.csv"
+        "https://covid.ourworldindata.org/data/latest/owid-covid-latest.csv"
     );
 
     let time_axios = Date.now();
 
-    let last_iso_code = "NOTEMPTY";
-    let filteredData = [];
-    response.data
-        .split("\n")
-        .reverse()
-        .forEach((row) => {
-            if (row.trim() && !row.startsWith(last_iso_code)) {
-                last_iso_code = row.slice(0, 3);
-                filteredData.push(row);
-            }
-        });
-
-    filteredData = filteredData.reverse().join("\n");
-    let time_filter = Date.now();
-
-    const parsedData = await neatCsv(filteredData);
+    const parsedData = await neatCsv(response.data);
 
     let time_parse = Date.now();
 
@@ -85,8 +70,7 @@ module.exports = async (req, res) => {
 
     let timing = {
         download: time_axios - time_start,
-        filter: time_filter - time_axios,
-        parse: time_parse - time_filter,
+        parse: time_parse - time_axios,
         unpack: time_end - time_parse,
     };
     console.log(timing);
