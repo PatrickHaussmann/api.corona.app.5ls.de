@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
     ]);
 
     const cases = cases_response.data;
-    const vaccinations = vaccinations_response.data.data;
     let result = cases;
     result.rValue = result.r.value;
     result.r = undefined;
@@ -24,13 +23,17 @@ module.exports = async (req, res) => {
     if (result.cases != null && result.deaths != null)
         result.deathRate = result.deaths / result.cases;
 
-    result.vaccinated = vaccinations.vaccinated;
-    result.delta.vaccinated = vaccinations.delta;
-    result.vaccinatedQuote = vaccinations.quote;
-    result.secondVaccination = vaccinations.secondVaccination.vaccinated;
-    result.delta.secondVaccination = vaccinations.secondVaccination.delta;
-    result.secondVaccinationQuote = vaccinations.secondVaccination.quote;
-    result.lastUpdateVaccinations = vaccinations_response.data.meta.lastUpdate;
+    if (vaccinations_response.data.data) {
+        const vaccinations = vaccinations_response.data.data;
+        result.vaccinated = vaccinations.vaccinated;
+        result.delta.vaccinated = vaccinations.delta;
+        result.vaccinatedQuote = vaccinations.quote;
+        result.secondVaccination = vaccinations.secondVaccination.vaccinated;
+        result.delta.secondVaccination = vaccinations.secondVaccination.delta;
+        result.secondVaccinationQuote = vaccinations.secondVaccination.quote;
+        result.lastUpdateVaccinations =
+            vaccinations_response.data.meta.lastUpdate;
+    }
 
     result.lastUpdate = result.meta.lastUpdate;
     result.lastCheckedForUpdate = new Date();
