@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
     let time_download = Date.now();
 
     const cases = cases_response.data.data;
-    const vaccinations = vaccinations_response.data.data.states;
 
     for (const key in cases) {
         if (Object.hasOwnProperty.call(cases, key)) {
@@ -31,38 +30,41 @@ module.exports = async (req, res) => {
         }
     }
 
+    let result = {};
     let states = cases;
 
-    for (const state in vaccinations) {
-        if (
-            Object.hasOwnProperty.call(vaccinations, state) &&
-            state != "Bund"
-        ) {
-            const element = vaccinations[state];
-            if (!states[state]) states[state] = {};
+    if (vaccinations_response.data.data) {
+        result.lastUpdateVaccinations =
+            vaccinations_response.data.meta.lastUpdate;
+        const vaccinations = vaccinations_response.data.data.states;
+        for (const state in vaccinations) {
+            if (
+                Object.hasOwnProperty.call(vaccinations, state) &&
+                state != "Bund"
+            ) {
+                const element = vaccinations[state];
+                if (!states[state]) states[state] = {};
 
-            states[state].vaccinated = element.vaccinated;
-            states[state].delta.vaccinated = element.delta;
-            states[state].vaccinatedQuote = element.quote;
-            states[state].secondVaccination =
-                element.secondVaccination.vaccinated;
-            states[state].delta.secondVaccination =
-                element.secondVaccination.delta;
-            states[state].secondVaccinationQuote =
-                element.secondVaccination.quote;
+                states[state].vaccinated = element.vaccinated;
+                states[state].delta.vaccinated = element.delta;
+                states[state].vaccinatedQuote = element.quote;
+                states[state].secondVaccination =
+                    element.secondVaccination.vaccinated;
+                states[state].delta.secondVaccination =
+                    element.secondVaccination.delta;
+                states[state].secondVaccinationQuote =
+                    element.secondVaccination.quote;
+            }
         }
     }
-
-    let result = {
-        states: {},
-    };
 
     for (const state in states) {
         if (Object.hasOwnProperty.call(states, state)) {
             const element = states[state];
-            result.states[element.name] = element;
+            states[element.name] = element;
         }
     }
+    result.states = states;
 
     let time_end = Date.now();
 
@@ -74,6 +76,5 @@ module.exports = async (req, res) => {
 
     result.lastUpdate = cases_response.data.meta.lastUpdate;
     result.lastCheckedForUpdate = new Date();
-    result.lastUpdateVaccinations = vaccinations_response.data.meta.lastUpdate;
     res.json(result);
 };
