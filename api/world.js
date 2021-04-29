@@ -2,17 +2,11 @@ const axios = require("axios");
 const neatCsv = require("neat-csv");
 
 module.exports = async (req, res) => {
-    let time_start = Date.now();
-
     const response = await axios.get(
         "https://covid.ourworldindata.org/data/latest/owid-covid-latest.csv"
     );
 
-    let time_axios = Date.now();
-
     const parsedData = await neatCsv(response.data);
-
-    let time_parse = Date.now();
 
     result = {
         countries: {},
@@ -65,15 +59,6 @@ module.exports = async (req, res) => {
                 result.countries[key].total_deaths /
                 result.countries[key].total_cases;
     });
-
-    let time_end = Date.now();
-
-    let timing = {
-        download: time_axios - time_start,
-        parse: time_parse - time_axios,
-        unpack: time_end - time_parse,
-    };
-    console.log(timing);
 
     res.json(result.countries);
 };

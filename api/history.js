@@ -3,8 +3,6 @@ const axios = require("axios");
 const population = 83783945;
 
 module.exports = async (req, res) => {
-    let time_start = Date.now();
-
     const cases_promise = axios.get(
         "https://api.corona-zahlen.org/germany/history/cases"
     );
@@ -16,9 +14,6 @@ module.exports = async (req, res) => {
         cases_promise,
         deaths_promise,
     ]);
-
-    let time_download = Date.now();
-
     const cases = cases_response.data.data;
     const deaths = deaths_response.data.data;
 
@@ -54,14 +49,6 @@ module.exports = async (req, res) => {
             result.data.push(dates[key]);
         }
     }
-
-    let time_end = Date.now();
-
-    let timing = {
-        download: time_download - time_start,
-        unpack: time_end - time_download,
-    };
-    console.log(timing);
 
     result.lastUpdate = cases_response.data.meta.lastUpdate;
     result.lastCheckedForUpdate = new Date();

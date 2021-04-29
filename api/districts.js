@@ -1,8 +1,6 @@
 const axios = require("axios");
 
 module.exports = async (req, res) => {
-    let time_start = Date.now();
-
     const cases_promise = axios.get("https://api.corona-zahlen.org/districts");
     const beds_promise = axios.get(
         "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/DIVI_Intensivregister_Landkreise/FeatureServer/0/query?where=1%3D1&outFields=AGS,betten_frei,betten_belegt,betten_gesamt,Anteil_betten_frei,faelle_covid_aktuell,faelle_covid_aktuell_beatmet,Anteil_covid_beatmet,Anteil_COVID_betten,daten_stand&returnGeometry=false&outSR=4326&f=json"
@@ -12,8 +10,6 @@ module.exports = async (req, res) => {
         cases_promise,
         beds_promise,
     ]);
-
-    let time_download = Date.now();
 
     const cases = cases_response.data.data;
     const beds = beds_response.data;
@@ -52,14 +48,6 @@ module.exports = async (req, res) => {
         district.proportionBedsCovid =
             feature.attributes.Anteil_COVID_betten / 100;
     }
-
-    let time_end = Date.now();
-
-    let timing = {
-        download: time_download - time_start,
-        unpack: time_end - time_download,
-    };
-    console.log(timing);
 
     result.lastUpdate = cases_response.data.meta.lastUpdate;
     result.lastUpdateBeds = cases_response.data.meta.lastUpdate;
