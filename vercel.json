@@ -1,31 +1,31 @@
 {
-  "version": 2,
-  "rewrites": [
-    { "source": "/", "destination": "/404" },
-    { "source": "/:file*", "destination": "/api/:file" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers" : [
+    "version": 2,
+    "rewrites": [
+        { "source": "/", "destination": "/404" },
+        { "source": "/:file*", "destination": "/api/:file" }
+    ],
+    "headers": [
         {
-          "key" : "Cache-Control",
-          "value" : "s-maxage=3600, stale-while-revalidate=21600"
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "s-maxage=3600, stale-while-revalidate=21600"
+                },
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "https://corona.app.5ls.de"
+                }
+            ]
         },
         {
-          "key" : "Access-Control-Allow-Origin",
-          "value" : "https://corona.app.5ls.de"
+            "source": "/(.*).geojson",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=259200"
+                }
+            ]
         }
-      ]
-    },
-    {
-      "source": "/(.*).geojson",
-      "headers" : [
-        {
-          "key" : "Cache-Control",
-          "value" : "public, max-age=259200"
-        }
-      ]
-    }
-  ]
+    ]
 }
