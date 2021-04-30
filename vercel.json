@@ -10,7 +10,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "s-maxage=3600, stale-while-revalidate=21600"
+          "value": "max-age=3600, s-maxage=3600, stale-while-revalidate=21600"
         },
         {
           "key": "Access-Control-Allow-Origin",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "source": "/(.*).geojson",
+      "source": "/(.*)/geojson",
       "headers": [
         {
           "key": "Cache-Control",
