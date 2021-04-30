@@ -7,23 +7,23 @@
   "headers": [
     {
       "source": "/(.*)",
-      "headers" : [
+      "headers": [
         {
-          "key" : "Cache-Control",
-          "value" : "s-maxage=3600, stale-while-revalidate=21600"
+          "key": "Cache-Control",
+          "value": "s-maxage=3600, stale-while-revalidate=21600"
         },
         {
-          "key" : "Access-Control-Allow-Origin",
-          "value" : "https://corona.app.5ls.de"
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://corona.app.5ls.de"
         }
       ]
     },
     {
       "source": "/(.*).geojson",
-      "headers" : [
+      "headers": [
         {
-          "key" : "Cache-Control",
-          "value" : "public, max-age=259200"
+          "key": "Cache-Control",
+          "value": "public, max-age=259200"
         }
       ]
     }
