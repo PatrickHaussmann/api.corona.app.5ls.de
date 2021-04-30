@@ -17,10 +17,11 @@ module.exports = async (req, res) => {
     feature.properties.name = feature.properties.LAN_ew_GEN;
     feature.properties.population = feature.properties.LAN_ew_EWZ;
     feature.properties.ags = feature.properties.LAN_ew_AGS;
+    feature.properties.id = feature.properties.ags;
 
     for (const key in feature.properties) {
       if (feature.properties.hasOwnProperty(key)) {
-        if (!["name", "population", "ags"].includes(key))
+        if (!["name", "population", "ags", "id"].includes(key))
           feature.properties[key] = undefined;
       }
     }
