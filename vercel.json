@@ -25,6 +25,10 @@
           "value": "maxage=43200"
         },
         {
+          "key": "access-control-allow-origin",
+          "value": "https://corona.app.5ls.de"
+        },
+        {
           "key": "X-test",
           "value": "proxy"
         }
