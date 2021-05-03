@@ -6,12 +6,14 @@ module.exports = async (req, res) => {
   );
 
   let data = response.data;
-
-  data.meta.debug = {
+  let debug = {
     status: response.status,
     url: response.config.url,
     headers: response.headers,
   };
+
+  if (data.meta) data.meta.debug = debug;
+  else data.debug = debug;
 
   res.json(data);
 };
