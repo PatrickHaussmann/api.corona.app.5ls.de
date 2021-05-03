@@ -10,7 +10,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "s-maxage=3600, stale-while-revalidate=21600"
+          "value": "s-maxage=3600, maxage=3600, stale-while-revalidate=21600"
         },
         {
           "key": "Access-Control-Allow-Origin",
@@ -19,28 +19,11 @@
       ]
     },
     {
-      "source": "/proxy/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "s-maxage=3600, maxage=43200"
-        },
-        {
-          "key": "access-control-allow-origin",
-          "value": "https://corona.app.5ls.de"
-        },
-        {
-          "key": "X-test",
-          "value": "proxy"
-        }
-      ]
-    },
-    {
       "source": "/(.*).geojson",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=259200"
+          "value": "public, s-maxage=259200, max-age=259200"
         }
       ]
     }
