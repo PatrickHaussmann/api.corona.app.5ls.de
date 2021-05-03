@@ -2,7 +2,7 @@
   "version": 2,
   "rewrites": [
     { "source": "/", "destination": "/404" },
-    { "source": "/:file*", "destination": "/api/:file" }
+    { "source": "/proxy/:match*", "destination": "https://api.corona-zahlen.org/:match*" }
   ],
   "headers": [
     {
@@ -15,6 +15,18 @@
         {
           "key": "Access-Control-Allow-Origin",
           "value": "https://corona.app.5ls.de"
+        }
+      ]
+    },{
+      "source": "/proxy/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "maxage=43200"
+        },
+        {
+          "key": "X-test",
+          "value": "proxy"
         }
       ]
     },
