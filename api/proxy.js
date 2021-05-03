@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
 
   if (data.meta) data.meta.debug = debug;
   else data.debug = debug;
-
-  if (response.headers.etag) res.set("etag", response.headers.etag);
+  
   res.json(data);
 };
