@@ -23,7 +23,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "maxage=43200"
+          "value": "s-maxage=3600, maxage=43200"
         },
         {
           "key": "access-control-allow-origin",
