@@ -2,7 +2,7 @@
   "version": 2,
   "rewrites": [
     { "source": "/", "destination": "/404" },
-    { "source": "/proxy/:match*", "destination": "/api/proxy?url=:match*" }
+    { "source": "/proxy/:path*", "destination": "/api/proxy" }
   ],
   "headers": [
     {
@@ -17,7 +17,8 @@
           "value": "https://corona.app.5ls.de"
         }
       ]
-    },{
+    },
+    {
       "source": "/proxy/(.*)",
       "headers": [
         {
