@@ -2,7 +2,8 @@
   "version": 2,
   "rewrites": [
     { "source": "/", "destination": "/404" },
-    { "source": "/:file*", "destination": "/api/:file" }
+    { "source": "/:file*", "destination": "/api/:file" },
+    { "source": "/proxy/:path*", "destination": "/api/proxy" }
   ],
   "headers": [
     {
@@ -23,7 +24,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=259200"
+          "value": "public, s-maxage=259200, max-age=259200"
         }
       ]
     }
