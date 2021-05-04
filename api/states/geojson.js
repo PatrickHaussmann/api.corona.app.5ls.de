@@ -3,7 +3,7 @@ const simplify = require("@turf/simplify");
 
 module.exports = async (req, res) => {
   const response = await axios.get(
-    "https://opendata.arcgis.com/datasets/917fc37a709542548cc3be077a786c17_0.geojson"
+    "https://opendata.arcgis.com/datasets/ef4b445a53c1406892257fe63129a8ea_0.geojson"
   );
   const apidata = response.data;
 
@@ -11,16 +11,17 @@ module.exports = async (req, res) => {
   var options = { tolerance: 0.005, highQuality: true };
   var simplified = simplify(apidata, options);
   simplified.crs = undefined;
-  simplified.name = "Landkreise";
+  simplified.name = "Bundesländer";
 
   for (const feature of simplified.features) {
-    feature.properties.name = feature.properties.GEN;
-    feature.properties.population = feature.properties.EWZ;
-    feature.properties.ags = feature.properties.AGS;
+    feature.properties.name = feature.properties.LAN_ew_GEN;
+    feature.properties.population = feature.properties.LAN_ew_EWZ;
+    feature.properties.ags = feature.properties.LAN_ew_AGS;
+    feature.properties.id = feature.properties.ags;
 
     for (const key in feature.properties) {
       if (feature.properties.hasOwnProperty(key)) {
-        if (!["name", "population", "ags"].includes(key))
+        if (!["name", "population", "ags", "id"].includes(key))
           feature.properties[key] = undefined;
       }
     }

@@ -98,26 +98,4 @@ module.exports = async (req, res) => {
   });
 
   res.json({ lastUpdate, districts });
-  return;
-  const latestEntry = json[json.length - 1];
-  const dateString =
-    latestEntry["Datum des Erkrankungsbeginns"] ||
-    latestEntry["Datum des Erkrankungs-beginns"];
-  let rValue =
-    latestEntry["Punktschätzer des 4-Tage R-Wertes"] ||
-    latestEntry["Punktschätzer der 4-Tage R-Wert"] ||
-    latestEntry["Punktschätzer des 4-Tage-R-Wertes"];
-
-  if (typeof rValue === "string" || rValue instanceof String) {
-    rValue = parseFloat(rValue.replace(",", "."));
-  }
-
-  const pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-  const date = new Date(dateString.replace(pattern, "$3-$2-$1"));
-
-  res.json({
-    data: rValue,
-    lastUpdate: date,
-    json,
-  });
 };
