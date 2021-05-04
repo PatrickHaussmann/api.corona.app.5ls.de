@@ -2,6 +2,7 @@
   "version": 2,
   "rewrites": [
     { "source": "/", "destination": "/404" },
+    { "source": "/:file*", "destination": "/api/:file" },
     { "source": "/proxy/:path*", "destination": "/api/proxy" }
   ],
   "headers": [
