@@ -3,7 +3,7 @@ const simplify = require("@turf/simplify");
 
 module.exports = async (req, res) => {
   const response = await axios.get(
-    "https://opendata.arcgis.com/datasets/917fc37a709542548cc3be077a786c17_0.geojson"
+    "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=GEN,AGS,EWZ&outSR=4326&f=json"
   );
   const apidata = response.data;
 
